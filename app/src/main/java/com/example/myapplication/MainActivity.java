@@ -26,7 +26,6 @@ public class MainActivity extends AppCompatActivity {
                 input.setText(result);
             }
         }
-
     };
 
     @Override
