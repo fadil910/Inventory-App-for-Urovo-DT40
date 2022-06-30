@@ -7,4 +7,5 @@
     <string name="vidage_saisie">VIDAGE SAISIE</string>
     <string name="reinit_saisie">Réinit. saisie</string>
     <string name="quitter">QUITTER</string>
+    <string name="raz">raz</string>
 </resources>

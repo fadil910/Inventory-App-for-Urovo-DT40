@@ -1,7 +1,7 @@
 package com.example.myapplication;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -11,10 +11,11 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-
 import com.google.android.material.textfield.TextInputEditText;
 
+import java.io.File;
 import java.io.FileOutputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -28,6 +29,8 @@ public class MainActivity extends AppCompatActivity {
     public ListView listView;
     public Button OK;
     public Button btn_annuler;
+    public Button btn_raz;
+    public Button btn2;
 
     private final BroadcastReceiver mScanReceiver = new BroadcastReceiver() {
 
@@ -35,7 +38,9 @@ public class MainActivity extends AppCompatActivity {
         public void onReceive(Context context, Intent intent) {
             String result = intent.getStringExtra(SCAN_ACTION);
             input.setText(result);
-            if (result != null){ input1.requestFocus(); }
+            if (result != null) {
+                input1.requestFocus();
+            }
         }
     };
 
@@ -49,6 +54,8 @@ public class MainActivity extends AppCompatActivity {
         OK = findViewById(R.id.btn3);
         listView = findViewById(R.id.listView);
         btn_annuler = findViewById(R.id.btn_annuler);
+        btn_raz = findViewById(R.id.btn_raz);
+        btn2 = findViewById(R.id.btn2);
 
         input.requestFocus();
 
@@ -71,20 +78,63 @@ public class MainActivity extends AppCompatActivity {
             input1.setText("");
             input.requestFocus();
         });
+
+        btn_raz.setOnClickListener(v -> {
+            input.setText("");
+            input.requestFocus();
+        });
+
+        btn2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                adapter.clear();
+            }
+        });
     }
 
-
-    public void save(View v) {
-        String info = listItems.toString();
-
+    public void save(View v){
+        File file = new File(this.getFilesDir(), "ficGloba.dat");
+        String fileContent = listItems.toString();
         try {
-            FileOutputStream fos = new FileOutputStream("C:\\HyperDist\\Decharge\\ficGloba1.dat", true);
-            fos.write(info.getBytes());
-            fos.close();
+            FileOutputStream fos = this.openFileOutput(String.valueOf(file), Context.MODE_PRIVATE);
+            fos.write(fileContent.getBytes(StandardCharsets.UTF_8));
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+    /*public void save(View v){
+        String filename = "ficGloba.dat";
+        String fileContent = listItems.toString();
+        try (FileOutputStream fos = context.onpenFileOutput(filename, Context.MODE_PRIVATE)){
+            fos.write(fileContent.toByteArray());
+        }
+    }*/
+    /*public void save(View v) {
+        String info = listItems.toString();
 
+        try {
+            FileOutputStream fos = new FileOutputStream("/ficGloba.dat", true);
+            fos.write(info.getBytes());
+            fos.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }*/
+
+    /*public void save(View v){
+        String root = Environment.getExternalStorageDirectory().toString();
+        File Decharge = new File(root + "/ficGloba.dat");
+        Decharge.mkdirs();
+        String info = listItems.toString();
+        File file = new File(Decharge, info);
+        if (file.exists()) file.delete();
+        try {
+            FileOutputStream out = new FileOutputStream(file);
+            out.flush();
+            out.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }*/
 }
