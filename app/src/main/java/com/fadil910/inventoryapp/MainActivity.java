@@ -1,20 +1,24 @@
-package com.example.myapplication;
+package com.fadil910.inventoryapp;
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.device.ScanManager;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Objects;
@@ -92,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void save(View v){
+    /*public void save(View v){
         File file = new File(this.getFilesDir(), "ficGloba.dat");
         String fileContent = listItems.toString();
         try {
@@ -101,15 +105,18 @@ public class MainActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
+    }*/
 
     /*public void save(View v){
         String filename = "ficGloba.dat";
         String fileContent = listItems.toString();
-        try (FileOutputStream fos = context.onpenFileOutput(filename, Context.MODE_PRIVATE)){
-            fos.write(fileContent.toByteArray());
+        try (FileOutputStream fos = this.openFileOutput(filename, Context.MODE_PRIVATE)){
+            fos.write(fileContent.getBytes(StandardCharsets.UTF_8));
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }*/
+
     /*public void save(View v) {
         String info = listItems.toString();
 
